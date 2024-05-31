@@ -21,20 +21,22 @@ public class Book {
     private List<String> listLanguages;
     private int downloadCount;
 
-    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors = new ArrayList<>();
 
+    public Book() {}
     public Book(DataBook databook) {
         List<Author> listAuthor = new ArrayList<>();
         for (DataAuthor author: databook.authors()) {
             DataAuthor dataAuthor = new DataAuthor(author.name(), author.birthYear(), author.deathYear());
             listAuthor.add(new Author(dataAuthor));
         }
+        List<String> listLanguages = new ArrayList<>(databook.listLanguages());
+        this.listLanguages = listLanguages;
         this.authors = listAuthor;
         this.title = databook.title();
-        this.listLanguages = Collections.singletonList(databook.listLanguages().get(0).split(",")[0].trim());
         this.downloadCount = databook.downloadCount();
 
     }

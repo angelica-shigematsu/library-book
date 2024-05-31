@@ -30,6 +30,7 @@ public class Main {
     public String menu() {
         return "Opções de livros\n" +
                 "1. Cadastrar livros\n" +
+                "2. Listar todos os livros\n" +
                 "Escolha uma das opções: \n";
     }
 
@@ -44,6 +45,8 @@ public class Main {
                 case 1:
                     addBook();
                     break;
+                case 2:
+                    listBook();
                 case 0:
                     break;
             }
@@ -104,5 +107,14 @@ public class Main {
         }catch(Exception e) {
             System.out.println("Já existe esse livro cadastrado");
         }
+    }
+
+    public List<Book> listBooks() {
+        return bookRepository.findAll();
+    }
+
+    private void listBook() {
+
+        listBooks().forEach(System.out::println);
     }
 }
