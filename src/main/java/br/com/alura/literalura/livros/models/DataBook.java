@@ -12,6 +12,6 @@ import java.util.List;
 public record DataBook(
                        @JsonAlias("title") String title,
                        @JsonAlias("authors") List<DataAuthor> authors,
-                       @JsonAlias("languages") List<String> listLanguages,
+                       @JsonAlias("languages") List<String> languages,
                        @JsonAlias("download_count") int downloadCount) {
 }

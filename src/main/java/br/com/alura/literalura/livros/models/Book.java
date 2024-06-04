@@ -18,7 +18,7 @@ public class Book {
 
     private String title;
 
-    private List<String> listLanguages;
+    private String languages;
     private int downloadCount;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -33,8 +33,7 @@ public class Book {
             DataAuthor dataAuthor = new DataAuthor(author.name(), author.birthYear(), author.deathYear());
             listAuthor.add(new Author(dataAuthor));
         }
-        List<String> listLanguages = new ArrayList<>(databook.listLanguages());
-        this.listLanguages = listLanguages;
+        this.languages = String.join(",", databook.languages());
         this.authors = listAuthor;
         this.title = databook.title();
         this.downloadCount = databook.downloadCount();
@@ -54,8 +53,8 @@ public class Book {
     }
 
 
-    public List<String> getListLanguages() {
-        return listLanguages;
+    public String getListLanguages() {
+        return languages;
     }
 
     public List<Author> getAuthors() {
@@ -71,7 +70,7 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", listLanguages=" + listLanguages +
+                ", listLanguages=" + languages +
                 ", downloadCount=" + downloadCount +
                 ", authors=" + authors +
                 '}';

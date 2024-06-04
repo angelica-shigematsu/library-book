@@ -60,7 +60,7 @@ public class BookService {
                 authorRepository.save(new Author(listAuthor.get(i)));
             }
 
-            DataBook dataBook1 = new DataBook(dataBook.title(), listAuthor, dataBook.listLanguages(), dataBook.downloadCount());
+            DataBook dataBook1 = new DataBook(dataBook.title(), listAuthor, dataBook.languages(), dataBook.downloadCount());
             Book book = new Book(dataBook1);
             bookRepository.save(book);
             System.out.println("Salvo com sucesso");

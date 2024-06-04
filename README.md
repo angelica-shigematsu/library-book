@@ -8,12 +8,12 @@
 
 ## 🧩 Funcionalidades
 
-| Opção do menu | Feature  | Status |
-| ------------- | ------------- |  |
+| Opção do menu | Feature  | Status   |
+| ------------- | ------------- |----------|
 | 1 | Salvar dados | Finalizado | 
 | 2 | Consultar livro  | Finalizado |
 | 3 | Consultar autores | Finalizado |
-| 4 | Listar por idiomas | Pendente |
+| 4 | Listar por idiomas | Finalizado |
 | 5 | Listar autores vivos | Pendente |
 
 # 🔨 Ferramentas:

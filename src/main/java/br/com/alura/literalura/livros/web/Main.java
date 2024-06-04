@@ -33,6 +33,7 @@ public class Main {
                 "1. Cadastrar livros\n" +
                 "2. Listar todos os livros\n" +
                 "3. Listar por autores\n" +
+                "4. Listar por idiomas\n" +
                 "Escolha uma das opções: \n";
     }
 
@@ -52,6 +53,9 @@ public class Main {
                     break;
                 case 3:
                     System.out.println(listByAuthor());
+                    break;
+                case 4:
+                    listByLanguage();
                     break;
                 case 0:
                     break;
@@ -107,7 +111,7 @@ public class Main {
 
             System.out.println(listAuthor.get(0).name());
 
-            DataBook dataBook1 = new DataBook(dataBook.title().toLowerCase(), listAuthor, dataBook.listLanguages(), dataBook.downloadCount());
+            DataBook dataBook1 = new DataBook(dataBook.title().toLowerCase(), listAuthor, dataBook.languages(), dataBook.downloadCount());
             Book book = new Book(dataBook1);
             System.out.println(dataBook1);
             bookRepository.save(book);
@@ -121,7 +125,7 @@ public class Main {
 
     private void listBook() {
         for(Book book: listBooks()) {
-            System.out.println(book.getTitle());
+            System.out.println(book.toString());
         }
     }
 
@@ -135,5 +139,14 @@ public class Main {
            return listAuthor.toString();
         }
         return "Não foi possível encontrar esse autor";
+    }
+
+    private void listByLanguage() {
+        System.out.println("Digite o idioma: ");
+        String language = scanner2.nextLine();
+        Optional<List<Book>> listBookByLanguage = bookRepository.findByLanguagesContainingIgnoreCase(language);
+
+        listBookByLanguage.stream().sorted().forEach(System.out::println);
+
     }
 }
