@@ -9,10 +9,10 @@
 ## 🧩 Funcionalidades
 
 | Opção do menu | Feature  | Status |
-| ------------- | ------------- | -------------- |
-| 1 | Salvar dados | Em andamento | 
-| 2 | Consultar livro  | Pendente |
-| 3 | Consultar autores | Pedente |
+| ------------- | ------------- |  |
+| 1 | Salvar dados | Finalizado | 
+| 2 | Consultar livro  | Finalizado |
+| 3 | Consultar autores | Finalizado |
 | 4 | Listar por idiomas | Pendente |
 | 5 | Listar autores vivos | Pendente |
 

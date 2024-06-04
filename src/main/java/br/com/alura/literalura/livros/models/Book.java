@@ -15,7 +15,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private long id;
-    @Column(unique = true)
+
     private String title;
 
     private List<String> listLanguages;

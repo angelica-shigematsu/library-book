@@ -8,6 +8,7 @@ import br.com.alura.literalura.livros.services.ApiConsumption;
 import br.com.alura.literalura.livros.services.ConveterData;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     AuthorRepository authorRepository;
@@ -31,6 +32,7 @@ public class Main {
         return "Opções de livros\n" +
                 "1. Cadastrar livros\n" +
                 "2. Listar todos os livros\n" +
+                "3. Listar por autores\n" +
                 "Escolha uma das opções: \n";
     }
 
@@ -47,6 +49,10 @@ public class Main {
                     break;
                 case 2:
                     listBook();
+                    break;
+                case 3:
+                    System.out.println(listByAuthor());
+                    break;
                 case 0:
                     break;
             }
@@ -54,6 +60,7 @@ public class Main {
         }
 
     }
+
     private static ResponseDTO getData(String title) {
         ApiConsumption consumption = new ApiConsumption();
         ConveterData conveterData = new ConveterData();
@@ -73,40 +80,39 @@ public class Main {
         System.out.println("Digite nome de um livro: ");
         String title = scanner.nextLine();
 
-        try {
-            Optional<Book> findBook = bookRepository.findByTitle(title.toLowerCase());
+        Optional<Book> findBook = bookRepository.findByTitle(title.toLowerCase());
 
-            if (findBook.isPresent()) {
-                System.out.println("Já existe esse livro cadastrado!");
-                return;
-            }
-
-            ResponseDTO respDto = getData(title.toLowerCase());
-            
-            if (!respDto.results().isEmpty()) {
-                DataBook dataBook = respDto.results().get(0);
-
-                List<DataAuthor> listAuthor = new ArrayList<>();
-                for (int i = 0; i < dataBook.authors().size(); i++) {
-                    listAuthor.add(
-                            new DataAuthor(
-                                    dataBook.authors().get(i).name(),
-                                    dataBook.authors().get(i).birthYear(),
-                                    dataBook.authors().get(i).deathYear()
-                            )
-                    );
-
-                    authorRepository.save(new Author(listAuthor.get(i)));
-                }
-
-                DataBook dataBook1 = new DataBook(dataBook.title().toLowerCase(), listAuthor, dataBook.listLanguages(), dataBook.downloadCount());
-                Book book = new Book(dataBook1);
-                bookRepository.save(book);
-                System.out.println("Salvo com sucesso");
-            }
-        }catch(Exception e) {
-            System.out.println("Já existe esse livro cadastrado");
+        if (findBook.isPresent()) {
+            System.out.println("Já existe esse livro cadastrado!");
+            return;
         }
+
+        ResponseDTO respDto = getData(title.toLowerCase());
+
+        if (!respDto.results().isEmpty()) {
+            DataBook dataBook = respDto.results().get(0);
+
+            List<DataAuthor> listAuthor = new ArrayList<>();
+            for (int i = 0; i < dataBook.authors().size(); i++) {
+                listAuthor.add(
+                        new DataAuthor(
+                                dataBook.authors().get(i).name(),
+                                dataBook.authors().get(i).birthYear(),
+                                dataBook.authors().get(i).deathYear()
+                        )
+                );
+
+                authorRepository.save(new Author(listAuthor.get(i)));
+            }
+
+            System.out.println(listAuthor.get(0).name());
+
+            DataBook dataBook1 = new DataBook(dataBook.title().toLowerCase(), listAuthor, dataBook.listLanguages(), dataBook.downloadCount());
+            Book book = new Book(dataBook1);
+            System.out.println(dataBook1);
+            bookRepository.save(book);
+            System.out.println("Salvo com sucesso");
+            }
     }
 
     public List<Book> listBooks() {
@@ -114,7 +120,20 @@ public class Main {
     }
 
     private void listBook() {
+        for(Book book: listBooks()) {
+            System.out.println(book.getTitle());
+        }
+    }
 
-        listBooks().forEach(System.out::println);
+    private String listByAuthor() {
+        System.out.println("Digite o nome do autor");
+        String author = scanner2.nextLine().toLowerCase();
+
+        Optional<Author> listAuthor = authorRepository.findByNameContainingIgnoreCase(author);
+
+        if (listAuthor.isPresent()) {
+           return listAuthor.toString();
+        }
+        return "Não foi possível encontrar esse autor";
     }
 }
