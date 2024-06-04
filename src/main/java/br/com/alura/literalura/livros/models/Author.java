@@ -23,7 +23,10 @@ public class Author {
     public Author(){}
 
     public Author(DataAuthor author) {
-        this.name = author.name();
+
+        String lastName = author.name().split(",")[0].toUpperCase();
+        String name = author.name().split(",")[1].toUpperCase();
+        this.name = name + " " + lastName;
         this.birthYear = author.birthYear();
         this.deathYear = author.deathYear();
     }
