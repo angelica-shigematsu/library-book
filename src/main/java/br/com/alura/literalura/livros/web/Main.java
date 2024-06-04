@@ -6,6 +6,7 @@ import br.com.alura.literalura.livros.repositories.AuthorRepository;
 import br.com.alura.literalura.livros.repositories.BookRepository;
 import br.com.alura.literalura.livros.services.ApiConsumption;
 import br.com.alura.literalura.livros.services.ConveterData;
+import org.springframework.data.auditing.AuditingHandler;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ public class Main {
                 "2. Listar todos os livros\n" +
                 "3. Listar por autores\n" +
                 "4. Listar por idiomas\n" +
+                "5. Listar autores vivos até determinada ano\n" +
                 "Escolha uma das opções: \n";
     }
 
@@ -56,6 +58,9 @@ public class Main {
                     break;
                 case 4:
                     listByLanguage();
+                    break;
+                case 5:
+                    listByAuthorLiveByYear();
                     break;
                 case 0:
                     break;
@@ -148,5 +153,12 @@ public class Main {
 
         listBookByLanguage.stream().sorted().forEach(System.out::println);
 
+    }
+
+    private void listByAuthorLiveByYear() {
+        System.out.println("Digite um ano: ");
+        int year = scanner2.nextInt();
+        Optional<List<Author>> listByYear = authorRepository.findByDeathYearLessThan(year);
+        listByYear.stream().sorted().forEach(System.out::println);
     }
 }
