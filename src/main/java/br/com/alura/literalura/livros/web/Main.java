@@ -30,12 +30,13 @@ public class Main {
     }
 
     public String menu() {
-        return "Opções de livros\n" +
+        return "\nOpções de livros\n" +
                 "1. Cadastrar livros\n" +
                 "2. Listar todos os livros\n" +
                 "3. Listar por autores\n" +
                 "4. Listar por idiomas\n" +
                 "5. Listar autores vivos até determinada ano\n" +
+                "6. Listar top 10 de livros mais baixados\n" +
                 "Escolha uma das opções: \n";
     }
 
@@ -62,6 +63,8 @@ public class Main {
                 case 5:
                     listByAuthorLiveByYear();
                     break;
+                case 6:
+                    listTop10ByDowload();
                 case 0:
                     break;
             }
@@ -160,5 +163,10 @@ public class Main {
         int year = scanner2.nextInt();
         Optional<List<Author>> listByYear = authorRepository.findByDeathYearLessThan(year);
         listByYear.stream().sorted().forEach(System.out::println);
+    }
+
+    private void listTop10ByDowload() {
+        Optional<List<Book>> listTop10 = bookRepository.findTop10ByOrderByDownloadCountDesc();
+        listTop10.stream().sorted().forEach(System.out::println);
     }
 }
